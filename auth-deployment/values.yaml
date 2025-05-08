@@ -62,11 +62,12 @@ ingress:
   className: "traefik"
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.middlewares: default-strip-prefix@kubernetescrd
     # Add any other Traefik-specific annotations if needed
   hosts:
     - host: edulor.fr
       paths:
-        - path: /auth
+        - path: /user-api
           pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
