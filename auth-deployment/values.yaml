@@ -58,12 +58,11 @@ service:
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: true
+  enabled: false
   className: "traefik"
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
     traefik.ingress.kubernetes.io/router.middlewares: default-strip-prefix@kubernetescrd
-    # Add any other Traefik-specific annotations if needed
   hosts:
     - host: edulor.fr
       paths:

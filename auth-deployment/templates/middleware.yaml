@@ -4,6 +4,6 @@ metadata:
   name: strip-prefix
   namespace: {{ .Release.Namespace }}
 spec:
-  replacePathRegex:
-    regex: "^/user-api/(.*)"
-    replacement: "/$1"
+  stripPrefix:
+    prefixes:
+      - /user-api 
