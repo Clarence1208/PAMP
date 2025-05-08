@@ -9,7 +9,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/clarence1208/pamp-auth-service
   # This sets the pull policy for images.
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
