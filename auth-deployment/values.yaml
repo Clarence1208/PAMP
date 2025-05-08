@@ -61,11 +61,12 @@ ingress:
   enabled: true
   className: "traefik"
   annotations:
-    # Add any Traefik-specific annotations if needed
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    # Add any other Traefik-specific annotations if needed
   hosts:
     - host: edulor.fr
       paths:
-        - path: /
+        - path: /auth
           pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
