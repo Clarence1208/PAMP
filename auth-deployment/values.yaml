@@ -146,5 +146,3 @@ configData:
 secrets:
   JWT_SECRET: "change-me-in-production"
   # Add other sensitive data here
-
-timestamp: {{ now | quote }}
