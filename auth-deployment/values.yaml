@@ -134,7 +134,7 @@ postgresql:
 
 # Environment variables for the auth service
 env:
-  DATABASE_URL: "postgres://postgres:postgres@{{ .Release.Name }}-postgresql:5432/pamp_auth"
+  DATABASE_URL: "postgres://postgres:postgres@pamp-auth-postgresql:5432/pamp_auth"
 
 # Configuration data
 configData:
