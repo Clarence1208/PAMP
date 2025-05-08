@@ -44,6 +44,29 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          env:
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- if .Values.configData }}
+            {{- range $key, $val := .Values.configData }}
+            - name: {{ $key }}
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "auth-deployment.fullname" $ }}-config
+                  key: {{ $key }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.secrets }}
+            {{- range $key, $val := .Values.secrets }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-deployment.fullname" $ }}-secret
+                  key: {{ $key }}
+            {{- end }}
+            {{- end }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
