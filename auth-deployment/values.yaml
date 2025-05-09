@@ -138,7 +138,8 @@ env:
   DATABASE_URL: "postgres://postgres:postgres@pamp-auth-postgresql:5432/pamp_auth"
   GOOGLE_CLIENT_ID: "575055875234-o3uth056tdd8ljf6dmg845armiu7f9kh.apps.googleusercontent.com"
   GOOGLE_CLIENT_SECRET: "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"
-  GOOGLE_REDIRECT_URI: "http://edulor.fr/user-api/auth/callback/google"
+  GOOGLE_REDIRECT_URI: "https://edulor.fr/user-api/auth/callback/google"
+  FRONTEND_URL: "localhost:5173"
 
 # Configuration data
 configData:
