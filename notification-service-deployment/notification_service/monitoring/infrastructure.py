@@ -81,8 +81,8 @@ class MonitoringComponent(Construct):
         )
         dlq_alarm.add_alarm_action(cloudwatch_actions.SnsAction(self.alarm_topic))
         
-        # Monitor API Gateway 4XX errors
-        api_4xx_metric = api_component.api.metric_4xx_error(
+        # Monitor API Gateway 4XX errors - Fix: use correct metric method
+        api_4xx_metric = api_component.api.metric_client_error(
             statistic="Sum",
             period=Duration.minutes(1)
         )
@@ -131,13 +131,13 @@ class MonitoringComponent(Construct):
                     dlq_depth_metric
                 ]
             ),
-            # API Gateway metrics
+            # API Gateway metrics - Fix: use correct metric methods
             cloudwatch.GraphWidget(
                 title="API Gateway Metrics",
                 left=[
                     api_component.api.metric_count(),
-                    api_component.api.metric_4xx_error(),
-                    api_component.api.metric_5xx_error(),
+                    api_component.api.metric_client_error(),
+                    api_component.api.metric_server_error(),
                     api_component.api.metric_latency()
                 ]
             ),

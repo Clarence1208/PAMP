@@ -43,7 +43,6 @@ class ApiComponent(Construct):
                 stage_name="prod",
                 throttling_rate_limit=10,    # 10 requests per second
                 throttling_burst_limit=20,   # 20 concurrent requests
-                logging_level=apigw.MethodLoggingLevel.INFO,
                 metrics_enabled=True,
             ),
             default_cors_preflight_options=apigw.CorsOptions(

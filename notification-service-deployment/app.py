@@ -5,8 +5,8 @@ import aws_cdk as cdk
 from notification_service.component import NotificationServiceStack
 
 # Define environment
-account = os.environ.get('CDK_DEFAULT_ACCOUNT', '')
-region = os.environ.get('CDK_DEFAULT_REGION', 'us-east-1')
+account = os.environ.get('CDK_DEFAULT_ACCOUNT', '123456789012')  # Default placeholder account
+region = os.environ.get('CDK_DEFAULT_REGION', 'eu-west-1')
 
 app = App()
 

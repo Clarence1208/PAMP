@@ -1,3 +1,5 @@
 auth-deployment/charts
 
 .venv
+
+cdk.out

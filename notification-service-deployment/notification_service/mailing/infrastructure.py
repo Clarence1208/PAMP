@@ -30,7 +30,6 @@ class MailingComponent(Construct):
             },
             timeout=Duration.seconds(30),
             memory_size=256,
-            reserved_concurrent_executions=5,  # Limit concurrent executions to stay within free tier
             log_retention=logs.RetentionDays.ONE_WEEK,
         )
         

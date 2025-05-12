@@ -13,6 +13,8 @@
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/notification-service-deployment/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/notification-service-deployment/cdk.out/.cache" />
+      <excludeFolder url="file://$MODULE_DIR$/notification-service-deployment/cdk.out/asset.255c392a797b7be92a1a2ecbf49ef97b4a680330c7cf513e7907f8d2f66492ca" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

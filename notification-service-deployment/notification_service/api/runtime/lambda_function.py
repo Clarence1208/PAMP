@@ -75,8 +75,7 @@ def handler(event, context):
                     'DataType': 'String',
                     'StringValue': 'email'
                 }
-            },
-            MessageGroupId=payload['id']  # Only needed for FIFO queues
+            }
         )
         
         logger.info("Successfully sent message to SQS: %s", response['MessageId'])
