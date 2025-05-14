@@ -22,7 +22,7 @@ TEXT_COLOR = "#2C2C33"
 PURPLE_ACCENT = "#6751E3"
 
 # Logo URL - replace with your actual logo URL
-LOGO_URL = "https://pamp-clm.s3.eu-west-1.amazonaws.com/PAMP-logo.png"
+LOGO_URL = "https://pamp-clm.s3.eu-west-1.amazonaws.com/PAMP-logo%400%2C3x.png"
 
 def create_html_email(subject, message, logo_url=LOGO_URL, button_text=None):
     """Create HTML email with styling"""
