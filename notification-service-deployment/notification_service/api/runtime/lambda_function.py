@@ -63,6 +63,7 @@ def handler(event, context):
             'subject': body['subject'],
             'message': body['message'],
             'from': body.get('from'),  # Optional field
+            'buttonText': body.get('buttonText'),  # Optional field for custom button text
             'status': 'QUEUED'
         }
         

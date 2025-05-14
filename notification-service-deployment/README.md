@@ -91,6 +91,26 @@ curl -X POST \
   }'
 ```
 
+Send an email with a button link:
+
+```bash
+curl -X POST \
+ https://b7ywphvnv6.execute-api.eu-west-1.amazonaws.com/prod/notify/email \
+ -H 'Content-Type: application/json' -H 'X-Api-Key: 9HnDynqinT6mPcyiD766FanAnVS4RmPz1ggVxJZm' \
+  -d '{
+  "to": "hirsch.clarence@gmail.com",
+   "subject": "Welcome to PAMP",
+    "message": "Hello,\n\n
+    Welcome to the PAMP platform! We are excited to have you on board.\n\n
+    Please verify your account by clicking on this link: https://edulor.fr/verify\n\n
+    Thank you,\n
+    The PAMP Team",
+    "from": "noreply@edulor.fr",
+    "buttonText": "Verify Account"
+}'
+```
+
+
 ## Monitoring
 
 The service includes a CloudWatch dashboard named "NotificationService" that displays:
