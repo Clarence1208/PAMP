@@ -13,6 +13,77 @@ The service is built using the following AWS services:
 - **Amazon DynamoDB**: Tracks notification status and history
 - **Amazon CloudWatch**: Monitors service health and performance
 
+```mermaid
+graph TD
+    A[Client] -->|POST /notify/email| B[API Gateway]
+    B -->|Forwards Request| C[API Lambda]
+    C -->|Enqueues Message| D[SQS Queue]
+    D -->|Triggers| E[Mailing Lambda]
+    E -->|Sends Email| F[Amazon SES]
+    E -->|Records Status| G[DynamoDB]
+    D -->|Failed Messages| H[Dead Letter Queue]
+    
+    I[CloudWatch] -->|Monitors| B
+    I -->|Monitors| C
+    I -->|Monitors| D
+    I -->|Monitors| E
+    I -->|Monitors| G
+    I -->|Monitors| H
+    
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bfb,stroke:#333,stroke-width:2px
+    style D fill:#fbf,stroke:#333,stroke-width:2px
+    style E fill:#bfb,stroke:#333,stroke-width:2px
+    style F fill:#bbf,stroke:#333,stroke-width:2px
+    style G fill:#fbb,stroke:#333,stroke-width:2px
+    style H fill:#fbf,stroke:#333,stroke-width:2px
+    style I fill:#bff,stroke:#333,stroke-width:2px
+```
+
+### Component Architecture
+
+```mermaid
+classDiagram
+    NotificationServiceStack --> NotificationServiceComponent
+    NotificationServiceComponent --> ApiComponent
+    NotificationServiceComponent --> QueueComponent
+    NotificationServiceComponent --> MailingComponent
+    NotificationServiceComponent --> MonitoringComponent
+    NotificationServiceComponent --> DynamoDB
+    
+    ApiComponent --> APIGateway
+    ApiComponent --> APILambda
+    QueueComponent --> SQSQueue
+    QueueComponent --> DeadLetterQueue
+    MailingComponent --> MailingLambda
+    MailingComponent --> SES
+    MonitoringComponent --> CloudWatch
+    
+    class NotificationServiceStack {
+        +NotificationServiceComponent notification_service
+    }
+    class NotificationServiceComponent {
+        +DynamoDB notification_table
+        +ApiComponent api_component
+        +QueueComponent queue_component
+        +MailingComponent mailing_component
+        +MonitoringComponent monitoring_component
+    }
+    class ApiComponent {
+        +APIGateway api
+        +APILambda lambda_function
+        +APIKey api_key
+    }
+    class QueueComponent {
+        +SQSQueue notification_queue
+        +DeadLetterQueue dlq
+    }
+    class MailingComponent {
+        +MailingLambda lambda_function
+    }
+```
+
 ## Free Tier Coverage
 
 This architecture is specifically designed to remain within the AWS free tier limits:
