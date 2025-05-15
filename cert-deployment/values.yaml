@@ -12,7 +12,7 @@ cert-manager:
 # Certificate Issuer configuration
 issuer:
   # Use Let's Encrypt production environment when true, staging when false
-  production: false
+  production: true
   email: "admin@edulor.fr"
   # The name of the ClusterIssuer to create
   name: "letsencrypt"
