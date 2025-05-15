@@ -35,7 +35,6 @@ your Helm deployments as follows:
        - secretName: edulor-tls-cert
          hosts:
            - edulor.fr
-           - www.edulor.fr
    ```
 
 2. Apply the update:

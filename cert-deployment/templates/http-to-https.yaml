@@ -20,7 +20,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`edulor.fr`) || Host(`www.edulor.fr`)
+    - match: Host(`edulor.fr`)
       kind: Rule
       middlewares:
         - name: {{ include "cert-deployment.fullname" . }}-redirect-https
