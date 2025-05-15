@@ -1,8 +1,8 @@
 # Cert-manager configuration
 cert-manager:
   # Whether to install cert-manager as a dependency
-  enabled: true
-  installCRDs: true
+  enabled: false
+  installCRDs: false
   
   # Set global namespace for cert-manager
   global:
