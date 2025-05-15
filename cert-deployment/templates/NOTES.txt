@@ -1,0 +1,33 @@
+PAMP TLS Certificate Management has been deployed!
+
+Application Name: {{ .Release.Name }}
+Namespace: {{ .Release.Namespace }}
+
+Certificate Issuer: {{ .Values.issuer.name }} ({{ .Values.issuer.type }})
+Using {{ if .Values.issuer.production }}PRODUCTION{{ else }}STAGING{{ end }} Let's Encrypt environment.
+
+{{- if not .Values.issuer.production }}
+NOTE: You are using the Let's Encrypt Staging environment. Certificates won't be trusted by browsers.
+To switch to production, set `issuer.production: true` in values.yaml and upgrade the helm release.
+{{- end }}
+
+Certificates:
+{{- range .Values.certificates }}
+  - {{ .name }}:
+    - Domains: {{ .domains | join ", " }}
+    - Secret: {{ .secretName }}
+    - Duration: {{ .duration }}
+    - Renewal Before: {{ .renewBefore }}
+{{- end }}
+
+To check the status of your certificates, run:
+  kubectl get certificates --all-namespaces
+
+To check certificate issuers, run:
+  kubectl get {{ lower .Values.issuer.type }} {{ .Values.issuer.name }}
+
+To view detailed certificate information, run:
+  kubectl describe certificate [certificate-name]
+
+For more information about cert-manager, visit:
+  https://cert-manager.io/docs/ 

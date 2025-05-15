@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1
+kind: {{ .Values.issuer.type }}
+metadata:
+  name: {{ .Values.issuer.name }}
+spec:
+  acme:
+    {{- if .Values.issuer.production }}
+    server: https://acme-v02.api.letsencrypt.org/directory
+    {{- else }}
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    {{- end }}
+    email: {{ .Values.issuer.email }}
+    privateKeySecretRef:
+      name: {{ .Values.issuer.name }}-account-key
+    solvers:
+      {{- toYaml .Values.issuer.solvers | nindent 6 }} 

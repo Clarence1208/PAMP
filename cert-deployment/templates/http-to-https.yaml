@@ -1,0 +1,29 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "cert-deployment.fullname" . }}-redirect-https
+  labels:
+    {{- include "cert-deployment.labels" . | nindent 4 }}
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "cert-deployment.fullname" . }}-redirect
+  labels:
+    {{- include "cert-deployment.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`edulor.fr`) || Host(`www.edulor.fr`)
+      kind: Rule
+      middlewares:
+        - name: {{ include "cert-deployment.fullname" . }}-redirect-https
+      services:
+        - name: noop
+          port: 80 

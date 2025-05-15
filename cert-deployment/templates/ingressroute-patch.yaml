@@ -1,0 +1,21 @@
+{{- range .Values.ingressPatches }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .name }}-secure
+  namespace: {{ .namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ $.Values.issuer.name }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`edulor.fr`)
+      kind: Rule
+      services:
+        - name: {{ .name }}
+          port: 80
+  tls:
+    secretName: {{ .secretName }}
+{{- end }} 

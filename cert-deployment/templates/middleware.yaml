@@ -1,0 +1,11 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "cert-deployment.fullname" . }}-acme-middleware
+  labels:
+    {{- include "cert-deployment.labels" . | nindent 4 }}
+spec:
+  stripPrefix:
+    prefixes:
+      - /.well-known/acme-challenge/
+    forceSlash: true 

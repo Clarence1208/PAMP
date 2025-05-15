@@ -1,0 +1,54 @@
+# Cert-manager configuration
+cert-manager:
+  # Whether to install cert-manager as a dependency
+  enabled: true
+  installCRDs: true
+  
+  # Set global namespace for cert-manager
+  global:
+    leaderElection:
+      namespace: cert-manager
+
+# Certificate Issuer configuration
+issuer:
+  # Use Let's Encrypt production environment when true, staging when false
+  production: false
+  email: "admin@edulor.fr"
+  # The name of the ClusterIssuer to create
+  name: "letsencrypt"
+  # The type of issuer (ClusterIssuer or Issuer)
+  type: "ClusterIssuer"
+  # Solver configuration for DNS01 or HTTP01 challenge
+  solvers:
+    - http01:
+        ingress:
+          class: traefik
+
+# Certificate configuration
+certificates:
+  # List of certificates to be issued
+  - name: "edulor-tls"
+    # The list of domains the certificate should be valid for
+    domains:
+      - "edulor.fr"
+      - "www.edulor.fr"
+    # Duration of the certificate (default: 90d)
+    duration: "90d"
+    # Renewal time before expiry (default: 30d)
+    renewBefore: "30d"
+    # Secret name where the certificate will be stored
+    secretName: "edulor-tls-cert"
+    # Add additional labels to the certificate
+    labels: {}
+    # Add additional annotations to the certificate
+    annotations: {}
+
+# Ingress TLS configuration
+ingressPatches:
+  # List of ingresses to patch with TLS configuration
+  - name: "pamp-frontend"
+    namespace: "default"
+    secretName: "edulor-tls-cert"
+  - name: "pamp-auth-service"
+    namespace: "default"
+    secretName: "edulor-tls-cert" 

@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "cert-deployment.fullname" . }}-test-certificate"
+  labels:
+    {{- include "cert-deployment.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: certificate-test
+      image: bitnami/kubectl:latest
+      command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Checking certificates..."
+          kubectl get certificates -o wide
+          {{- range .Values.certificates }}
+          echo "Checking certificate {{ .name }}..."
+          kubectl get certificate {{ .name }} -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' | grep "True" || exit 1
+          {{- end }}
+          echo "All certificates are ready!"
+  restartPolicy: Never 
