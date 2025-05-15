@@ -1,35 +1,25 @@
-{{- if .Values.ingress.enabled -}}
+{{- if and .Values.ingress.enabled .Values.ingress.tls -}}
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: {{ include "front-deployment.fullname" . }}
+  name: {{ include "front-deployment.fullname" . }}-secure
   labels:
     {{- include "front-deployment.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     {{- range .Values.ingress.hosts }}
     - match: Host(`{{ .host }}`)
       {{- range .paths }}
       {{- if eq .path "/" }}
       kind: Rule
-      {{- if $.Values.ingress.tls }}
-      middlewares:
-        - name: {{ include "front-deployment.fullname" $ }}-redirect-https
-      {{- end }}
       services:
         - name: {{ include "front-deployment.fullname" $ }}
           port: {{ $.Values.service.port }}
       {{- end }}
       {{- end }}
     {{- end }}
-  {{- if .Values.ingress.tls }}
   tls:
-    {{- toYaml .Values.ingress.tls | nindent 4 }}
-  {{- end }}
+    secretName: {{ index .Values.ingress.tls 0 "secretName" }}
 {{- end }} 

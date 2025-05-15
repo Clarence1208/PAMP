@@ -61,13 +61,16 @@ ingress:
   enabled: true
   className: "traefik"
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
   hosts:
     - host: edulor.fr
       paths:
         - path: /
           pathType: Prefix
-  tls: []
+  tls:
+    - secretName: edulor-tls-cert
+      hosts:
+        - edulor.fr
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
