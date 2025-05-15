@@ -20,6 +20,34 @@ Certificates:
     - Renewal Before: {{ .renewBefore }}
 {{- end }}
 
+-----------------------------------------
+IMPORTANT: Next Steps for TLS Integration
+-----------------------------------------
+
+To use the generated certificates with your existing deployments, update
+your Helm deployments as follows:
+
+1. For pamp-frontend deployment, edit values.yaml:
+
+   ```yaml
+   ingress:
+     tls:
+       - secretName: edulor-tls-cert
+         hosts:
+           - edulor.fr
+           - www.edulor.fr
+   ```
+
+2. Apply the update:
+
+   ```bash
+   helm upgrade pamp-frontend ./front-deployment
+   ```
+
+3. Repeat for other deployments (auth service, etc.)
+
+-----------------------------------------
+
 To check the status of your certificates, run:
   kubectl get certificates --all-namespaces
 
@@ -27,7 +55,7 @@ To check certificate issuers, run:
   kubectl get {{ lower .Values.issuer.type }} {{ .Values.issuer.name }}
 
 To view detailed certificate information, run:
-  kubectl describe certificate [certificate-name]
+  kubectl describe certificate edulor-tls
 
 For more information about cert-manager, visit:
   https://cert-manager.io/docs/ 

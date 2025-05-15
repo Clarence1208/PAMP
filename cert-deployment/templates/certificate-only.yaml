@@ -1,0 +1,87 @@
+# This template creates only the necessary certificate resources
+# without attempting to modify existing Ingress resources
+
+# Certificate Issuer
+apiVersion: cert-manager.io/v1
+kind: {{ .Values.issuer.type }}
+metadata:
+  name: {{ .Values.issuer.name }}
+  labels:
+    {{- include "cert-deployment.labels" . | nindent 4 }}
+spec:
+  acme:
+    {{- if .Values.issuer.production }}
+    server: https://acme-v02.api.letsencrypt.org/directory
+    {{- else }}
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    {{- end }}
+    email: {{ .Values.issuer.email }}
+    privateKeySecretRef:
+      name: {{ .Values.issuer.name }}-account-key
+    solvers:
+      {{- toYaml .Values.issuer.solvers | nindent 6 }}
+
+---
+# Create a separate IngressRoute to handle ACME HTTP-01 challenges
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "cert-deployment.fullname" . }}-acme-challenge
+  labels:
+    {{- include "cert-deployment.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/.well-known/acme-challenge/`)
+      kind: Rule
+      priority: 100
+      services:
+        - name: {{ include "cert-deployment.fullname" . }}-acme-svc
+          port: 8089
+
+---
+# Service to handle ACME challenges (points to cert-manager solver pods)
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "cert-deployment.fullname" . }}-acme-svc
+  labels:
+    {{- include "cert-deployment.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8089
+      targetPort: 8089
+      protocol: TCP
+  selector:
+    acme.cert-manager.io/http01-solver: "true"
+
+---
+# Certificates
+{{- range .Values.certificates }}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .name }}
+  {{- with .labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  secretName: {{ .secretName }}
+  duration: {{ .duration }}
+  renewBefore: {{ .renewBefore }}
+  dnsNames:
+  {{- range .domains }}
+    - {{ . }}
+  {{- end }}
+  issuerRef:
+    name: {{ $.Values.issuer.name }}
+    kind: {{ $.Values.issuer.type }}
+{{- end }} 

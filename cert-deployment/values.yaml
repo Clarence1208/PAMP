@@ -43,12 +43,5 @@ certificates:
     # Add additional annotations to the certificate
     annotations: {}
 
-# Ingress TLS configuration
-ingressPatches:
-  # List of ingresses to patch with TLS configuration
-  - name: "pamp-frontend"
-    namespace: "default"
-    secretName: "edulor-tls-cert"
-  - name: "pamp-auth-service"
-    namespace: "default"
-    secretName: "edulor-tls-cert" 
+# Ingress TLS configuration - disabled to avoid conflicts
+ingressPatches: [] 
