@@ -16,8 +16,8 @@ Certificates:
   - {{ .name }}:
     - Domains: {{ .domains | join ", " }}
     - Secret: {{ .secretName }}
-    - Duration: {{ .duration }}
-    - Renewal Before: {{ .renewBefore }}
+    - Duration: {{ .duration }} (90 days)
+    - Renewal Before: {{ .renewBefore }} (30 days)
 {{- end }}
 
 -----------------------------------------
