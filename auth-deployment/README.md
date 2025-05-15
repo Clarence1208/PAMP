@@ -14,23 +14,44 @@ To install the chart with the release name `pamp-auth`:
 
 ```bash
 # Add the Bitnami repository for PostgreSQL dependency
-helm repo add bitnami https://charts.bitnami.com/bitnami
+  helm repo add bitnami https://charts.bitnami.com/bitnami
 
 # Update repositories
-helm repo update
+  helm repo update
 
 # Install the chart
-helm install pamp-auth ./auth-deployment
+  helm install pamp-auth ./auth-deployment
 ```
 
 The command deploys the PAMP Auth Service on the Kubernetes cluster with default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
+
+## Deploying the last version
+
+To deploy the latest version of the chart, you can use the following command:
+
+```bash
+  kubectl rollout restart deployment pamp-auth-service \
+  -n default
+```
+
+get the pods of the service:
+
+```bash
+  kubectl get pods --namespace default -l "app.kubernetes.io/name=auth-deployment,app.kubernetes.io/instance=pamp-auth"
+```
+
+logs of a pod:
+
+```bash
+  kubectl logs pamp-auth-service-5d599fc5bd-hbhfk
+```
 
 ## Uninstalling the Chart
 
 To uninstall/delete the `pamp-auth` deployment:
 
 ```bash
-helm uninstall pamp-auth
+  helm uninstall pamp-auth
 ```
 
 ## Parameters
