@@ -18,7 +18,7 @@ spec:
       {{- range .paths }}
       {{- if eq .path "/" }}
       kind: Rule
-      {{- if $.Values.ingress.tls }}
+      {{- if $.Values.ingress.certSecretName }}
       middlewares:
         - name: {{ include "front-deployment.fullname" $ }}-redirect-https
       {{- end }}
@@ -28,8 +28,4 @@ spec:
       {{- end }}
       {{- end }}
     {{- end }}
-  {{- if .Values.ingress.tls }}
-  tls:
-    {{- toYaml .Values.ingress.tls | nindent 4 }}
-  {{- end }}
 {{- end }} 

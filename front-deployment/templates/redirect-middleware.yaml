@@ -1,4 +1,4 @@
-{{- if and .Values.ingress.enabled .Values.ingress.tls -}}
+{{- if and .Values.ingress.enabled .Values.ingress.certSecretName -}}
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:

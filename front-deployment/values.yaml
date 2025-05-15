@@ -67,13 +67,15 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-  tls:
-    - secretName: edulor-tls-cert
-      hosts:
-        - edulor.fr
-  #  - secretName: chart-example-tls
+  
+  # Simple string for Traefik IngressRoute
+  certSecretName: "edulor-tls-cert"
+  
+  # Standard Kubernetes Ingress format (keep this for compatibility)
+  tls: []
+  #  - secretName: edulor-tls-cert
   #    hosts:
-  #      - chart-example.local
+  #      - edulor.fr
 
 resources:
   limits:
