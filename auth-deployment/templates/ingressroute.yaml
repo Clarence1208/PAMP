@@ -1,24 +1,4 @@
 apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: set-swagger-prefix
-  namespace: {{ .Release.Namespace }}
-spec:
-  headers:
-    customRequestHeaders:
-      X-Forwarded-Prefix: "/user-api"
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: strip-prefix
-  namespace: {{ .Release.Namespace }}
-spec:
-  stripPrefix:
-    prefixes:
-      - /user-api
----
-apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ include "auth-deployment.fullname" . }}
