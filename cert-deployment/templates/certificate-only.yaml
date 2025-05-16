@@ -7,7 +7,7 @@ kind: {{ .Values.issuer.type }}
 metadata:
   name: {{ .Values.issuer.name }}
   labels:
-    {{- include "cert-deployment.labels" . | nindent 4 }}
+    {{ include "cert-deployment.labels" . | nindent 4 }}
 spec:
   acme:
     {{- if .Values.issuer.production }}
@@ -19,7 +19,7 @@ spec:
     privateKeySecretRef:
       name: {{ .Values.issuer.name }}-account-key
     solvers:
-      {{- toYaml .Values.issuer.solvers | nindent 6 }}
+      {{ toYaml .Values.issuer.solvers | nindent 6 }}
 
 ---
 # Create a separate IngressRoute to handle ACME HTTP-01 challenges
@@ -28,7 +28,7 @@ kind: IngressRoute
 metadata:
   name: {{ include "cert-deployment.fullname" . }}-acme-challenge
   labels:
-    {{- include "cert-deployment.labels" . | nindent 4 }}
+    {{ include "cert-deployment.labels" . | nindent 4 }}
 spec:
   entryPoints:
     - web
@@ -47,7 +47,7 @@ kind: Service
 metadata:
   name: {{ include "cert-deployment.fullname" . }}-acme-svc
   labels:
-    {{- include "cert-deployment.labels" . | nindent 4 }}
+    {{ include "cert-deployment.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
