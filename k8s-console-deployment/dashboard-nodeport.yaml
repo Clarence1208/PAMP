@@ -10,4 +10,6 @@ spec:
     targetPort: 8443
     nodePort: 30443
   selector:
-    app.kubernetes.io/name: kubernetes-dashboard 
+    app.kubernetes.io/component: kong-proxy
+    app.kubernetes.io/instance: kubernetes-dashboard
+    app.kubernetes.io/name: kong 
