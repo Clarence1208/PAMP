@@ -1,13 +1,16 @@
 #!/bin/bash
 
+# Get the directory where the script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # Apply admin user and role binding
-kubectl apply -f dashboard-admin.yaml
+kubectl apply -f "$SCRIPT_DIR/dashboard-admin.yaml"
 
 # Apply token configuration
-kubectl apply -f dashboard-token.yaml
+kubectl apply -f "$SCRIPT_DIR/dashboard-token.yaml"
 
 # Apply NodePort service
-kubectl apply -f dashboard-nodeport.yaml
+kubectl apply -f "$SCRIPT_DIR/dashboard-nodeport.yaml"
 
 # Wait for resources to be created
 echo "Waiting for resources to be created..."
