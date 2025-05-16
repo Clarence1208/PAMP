@@ -19,7 +19,7 @@ spec:
     privateKeySecretRef:
       name: {{ .Values.issuer.name }}-account-key
     solvers:
-      {{ toYaml .Values.issuer.solvers | nindent 6 }}
+    {{- toYaml .Values.issuer.solvers | nindent 6 }}
 
 ---
 # Create a separate IngressRoute to handle ACME HTTP-01 challenges
