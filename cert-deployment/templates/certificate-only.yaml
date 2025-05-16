@@ -28,7 +28,7 @@ kind: IngressRoute
 metadata:
   name: {{ include "cert-deployment.fullname" . }}-acme-challenge
   labels:
-    {{ include "cert-deployment.labels" . | nindent 4 }}
+    {{- include "cert-deployment.labels" . | nindent 4 }}
 spec:
   entryPoints:
     - web
@@ -47,7 +47,7 @@ kind: Service
 metadata:
   name: {{ include "cert-deployment.fullname" . }}-acme-svc
   labels:
-    {{ include "cert-deployment.labels" . | nindent 4 }}
+    {{- include "cert-deployment.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
