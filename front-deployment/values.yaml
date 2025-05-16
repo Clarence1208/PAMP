@@ -131,7 +131,7 @@ affinity: {}
 # Environment variables for the frontend
 env:
   NODE_ENV: "production"
-  VITE_AUTH_API_URL: "http://auth.edulor.fr"
+  VITE_AUTH_API_URL: "https://auth.edulor.fr"
 
 # Configuration data
 configData:
