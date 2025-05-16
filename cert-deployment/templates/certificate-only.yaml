@@ -8,10 +8,7 @@ kind: {{ .Values.issuer.type }}
 metadata:
   name: {{ .Values.issuer.name }}
   labels:
-    app.kubernetes.io/name: {{ include "cert-deployment.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    helm.sh/chart: {{ include "cert-deployment.chart" . }}
+    {{ include "cert-deployment.labels" . | nindent 4 }}
 spec:
   acme:
     {{- if .Values.issuer.production }}
@@ -23,19 +20,16 @@ spec:
     privateKeySecretRef:
       name: {{ .Values.issuer.name }}-account-key
     solvers:
-    {{- toYaml .Values.issuer.solvers | nindent 4 }}
+      {{ toYaml .Values.issuer.solvers | nindent 6 }}
 
 ---
-# ACME HTTP-01 Challenge IngressRoute
+# Create a separate IngressRoute to handle ACME HTTP-01 challenges
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ include "cert-deployment.fullname" . }}-acme-challenge
   labels:
-    app.kubernetes.io/name: {{ include "cert-deployment.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    helm.sh/chart: {{ include "cert-deployment.chart" . }}
+    {{ include "cert-deployment.labels" . | nindent 4 }}
 spec:
   entryPoints:
     - web
@@ -54,10 +48,7 @@ kind: Service
 metadata:
   name: {{ include "cert-deployment.fullname" . }}-acme-svc
   labels:
-    app.kubernetes.io/name: {{ include "cert-deployment.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    helm.sh/chart: {{ include "cert-deployment.chart" . }}
+    {{ include "cert-deployment.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -67,33 +58,30 @@ spec:
   selector:
     acme.cert-manager.io/http01-solver: "true"
 
+---
+# Certificates
 {{- range .Values.certificates }}
 ---
-# Certificate
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ .name }}
+  {{- with .labels }}
   labels:
-    app.kubernetes.io/name: {{ include "cert-deployment.name" $ }}
-    app.kubernetes.io/instance: {{ $.Release.Name }}
-    app.kubernetes.io/managed-by: {{ $.Release.Service }}
-    helm.sh/chart: {{ include "cert-deployment.chart" $ }}
-    {{- if .labels }}
-    {{- toYaml .labels | nindent 4 }}
-    {{- end }}
-  {{- if .annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .annotations }}
   annotations:
-    {{- toYaml .annotations | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
   secretName: {{ .secretName }}
   duration: {{ .duration }}
   renewBefore: {{ .renewBefore }}
   dnsNames:
-    {{- range .domains }}
-    - {{ . }}
-    {{- end }}
+  {{- range .domains }}
+    - {{ . | quote }}
+  {{- end }}
   issuerRef:
     name: {{ $.Values.issuer.name }}
     kind: {{ $.Values.issuer.type }}
