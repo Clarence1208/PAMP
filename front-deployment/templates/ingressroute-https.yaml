@@ -10,7 +10,7 @@ spec:
     - websecure
   routes:
     {{- range .Values.ingress.hosts }}
-    - match: Host(`{{ .host }}`)
+    - match: Host(`{{ .host }}`) && !PathPrefix(`/user-api/`)
       {{- range .paths }}
       {{- if eq .path "/" }}
       kind: Rule
