@@ -62,20 +62,19 @@ ingress:
   className: "traefik"
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    # Set priority to be lower than auth service
+    traefik.ingress.kubernetes.io/router.priority: "1"
   hosts:
     - host: edulor.fr
       paths:
         - path: /
           pathType: Prefix
   
-  # Simple string for Traefik IngressRoute
-  certSecretName: "edulor-tls-cert"
-  
-  # Standard Kubernetes Ingress format (keep this for compatibility)
-  tls: []
-  #  - secretName: edulor-tls-cert
-  #    hosts:
-  #      - edulor.fr
+  # TLS configuration for standard Kubernetes Ingress
+  tls:
+    - secretName: edulor-tls-cert
+      hosts:
+        - edulor.fr
 
 resources:
   limits:
