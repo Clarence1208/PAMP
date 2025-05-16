@@ -6,8 +6,7 @@ apiVersion: cert-manager.io/v1
 kind: {{ .Values.issuer.type }}
 metadata:
   name: {{ .Values.issuer.name }}
-  labels:
-    {{- include "cert-deployment.labels" . | nindent 4 }}
+  labels: {{- include "cert-deployment.labels" . | nindent 4 }}
 spec:
   acme:
     {{- if .Values.issuer.production }}
@@ -18,8 +17,7 @@ spec:
     email: {{ .Values.issuer.email }}
     privateKeySecretRef:
       name: {{ .Values.issuer.name }}-account-key
-    solvers:
-      {{- toYaml .Values.issuer.solvers | nindent 6 }}
+    solvers: {{- toYaml .Values.issuer.solvers | nindent 6 }}
 
 ---
 # Create a separate IngressRoute to handle ACME HTTP-01 challenges
@@ -27,8 +25,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ include "cert-deployment.fullname" . }}-acme-challenge
-  labels:
-    {{- include "cert-deployment.labels" . | nindent 4 }}
+  labels: {{- include "cert-deployment.labels" . | nindent 4 }}
 spec:
   entryPoints:
     - web
@@ -46,8 +43,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "cert-deployment.fullname" . }}-acme-svc
-  labels:
-    {{- include "cert-deployment.labels" . | nindent 4 }}
+  labels: {{- include "cert-deployment.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -66,12 +62,10 @@ kind: Certificate
 metadata:
   name: {{ .name }}
   {{- with .labels }}
-  labels:
-    {{- toYaml . | nindent 4 }}
+  labels: {{- toYaml . | nindent 4 }}
   {{- end }}
   {{- with .annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
+  annotations: {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
   secretName: {{ .secretName }}
