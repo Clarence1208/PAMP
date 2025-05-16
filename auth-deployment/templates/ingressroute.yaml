@@ -13,8 +13,3 @@ spec:
       services:
         - name: {{ include "auth-deployment.fullname" . }}
           port: {{ .Values.service.port }}
-      middlewares:
-        - name: strip-prefix
-          namespace: {{ .Release.Namespace }}
-        - name: set-swagger-prefix
-          namespace: {{ .Release.Namespace }} 
