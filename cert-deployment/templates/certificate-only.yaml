@@ -8,13 +8,10 @@ kind: {{ .Values.issuer.type }}
 metadata:
   name: {{ .Values.issuer.name }}
   labels:
-    helm.sh/chart: {{ include "cert-deployment.chart" . }}
     app.kubernetes.io/name: {{ include "cert-deployment.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-    {{- if .Chart.AppVersion }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    {{- end }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    helm.sh/chart: {{ include "cert-deployment.chart" . }}
 spec:
   acme:
     {{- if .Values.issuer.production }}
@@ -26,9 +23,7 @@ spec:
     privateKeySecretRef:
       name: {{ .Values.issuer.name }}-account-key
     solvers:
-    {{- with .Values.issuer.solvers }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
+    {{- toYaml .Values.issuer.solvers | nindent 4 }}
 
 ---
 # ACME HTTP-01 Challenge IngressRoute
@@ -37,13 +32,10 @@ kind: IngressRoute
 metadata:
   name: {{ include "cert-deployment.fullname" . }}-acme-challenge
   labels:
-    helm.sh/chart: {{ include "cert-deployment.chart" . }}
     app.kubernetes.io/name: {{ include "cert-deployment.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-    {{- if .Chart.AppVersion }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    {{- end }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    helm.sh/chart: {{ include "cert-deployment.chart" . }}
 spec:
   entryPoints:
     - web
@@ -62,13 +54,10 @@ kind: Service
 metadata:
   name: {{ include "cert-deployment.fullname" . }}-acme-svc
   labels:
-    helm.sh/chart: {{ include "cert-deployment.chart" . }}
     app.kubernetes.io/name: {{ include "cert-deployment.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-    {{- if .Chart.AppVersion }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-    {{- end }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    helm.sh/chart: {{ include "cert-deployment.chart" . }}
 spec:
   type: ClusterIP
   ports:
@@ -86,19 +75,16 @@ kind: Certificate
 metadata:
   name: {{ .name }}
   labels:
-    helm.sh/chart: {{ include "cert-deployment.chart" $ }}
     app.kubernetes.io/name: {{ include "cert-deployment.name" $ }}
     app.kubernetes.io/instance: {{ $.Release.Name }}
-    {{- if $.Chart.AppVersion }}
-    app.kubernetes.io/version: {{ $.Chart.AppVersion | quote }}
-    {{- end }}
     app.kubernetes.io/managed-by: {{ $.Release.Service }}
-    {{- with .labels }}
-    {{- toYaml . | nindent 4 }}
+    helm.sh/chart: {{ include "cert-deployment.chart" $ }}
+    {{- if .labels }}
+    {{- toYaml .labels | nindent 4 }}
     {{- end }}
-  {{- with .annotations }}
+  {{- if .annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
+    {{- toYaml .annotations | nindent 4 }}
   {{- end }}
 spec:
   secretName: {{ .secretName }}
