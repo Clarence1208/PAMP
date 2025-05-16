@@ -58,17 +58,19 @@ service:
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: false
+  enabled: true
   className: "traefik"
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/router.middlewares: default-strip-prefix@kubernetescrd
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
   hosts:
-    - host: edulor.fr
+    - host: auth.edulor.fr
       paths:
-        - path: /user-api
+        - path: /
           pathType: Prefix
-  tls: []
+  tls:
+    - secretName: auth-edulor-tls-cert
+      hosts:
+        - auth.edulor.fr
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
@@ -138,7 +140,7 @@ env:
   DATABASE_URL: "postgres://postgres:postgres@pamp-auth-postgresql:5432/pamp_auth"
   GOOGLE_CLIENT_ID: "575055875234-o3uth056tdd8ljf6dmg845armiu7f9kh.apps.googleusercontent.com"
   GOOGLE_CLIENT_SECRET: "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"
-  GOOGLE_REDIRECT_URI: "https://edulor.fr/user-api/auth/callback/google"
+  GOOGLE_REDIRECT_URI: "https://auth.edulor.fr/auth/callback/google"
   FRONTEND_URL: "https://edulor.fr"
 
 # Configuration data

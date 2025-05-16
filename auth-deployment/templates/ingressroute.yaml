@@ -26,10 +26,10 @@ metadata:
 spec:
   entryPoints:
     - web
+    - websecure
   routes:
-    - match: Host(`{{ (index .Values.ingress.hosts 0).host }}`) && PathPrefix(`/user-api`)
+    - match: Host(`{{ (index .Values.ingress.hosts 0).host }}`)
       kind: Rule
-      priority: 10
       services:
         - name: {{ include "auth-deployment.fullname" . }}
           port: {{ .Values.service.port }}

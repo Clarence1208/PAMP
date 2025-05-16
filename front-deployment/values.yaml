@@ -72,7 +72,7 @@ ingress:
   
   # TLS configuration for standard Kubernetes Ingress
   tls:
-    - secretName: edulor-tls-cert
+    - secretName: "edulor-tls-cert"
       hosts:
         - edulor.fr
 
@@ -131,7 +131,7 @@ affinity: {}
 # Environment variables for the frontend
 env:
   NODE_ENV: "production"
-  VITE_AUTH_API_URL: "https://edulor.fr/user-api"
+  VITE_AUTH_API_URL: "https://auth.edulor.fr"
 
 # Configuration data
 configData:
