@@ -20,7 +20,7 @@ To install the chart with the release name `pamp-auth`:
   helm repo update
 
 # Install the chart
-  helm install pamp-auth ./auth-deployment
+  helm install pamp-auth-service ./auth-deployment
 ```
 
 The command deploys the PAMP Auth Service on the Kubernetes cluster with default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -37,7 +37,7 @@ To deploy the latest version of the chart, you can use the following command:
 get the pods of the service:
 
 ```bash
-  kubectl get pods --namespace default -l "app.kubernetes.io/name=auth-deployment,app.kubernetes.io/instance=pamp-auth"
+  kubectl get pods --namespace default -l "app.kubernetes.io/name=auth-deployment,app.kubernetes.io/instance=pamp-auth-service"
 ```
 
 logs of a pod:
@@ -51,7 +51,7 @@ logs of a pod:
 To uninstall/delete the `pamp-auth` deployment:
 
 ```bash
-  helm uninstall pamp-auth
+  helm uninstall pamp-auth-service
 ```
 
 ## Parameters
