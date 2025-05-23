@@ -134,7 +134,7 @@ postgresql:
 
 # Environment variables for the project service
 env:
-  DATABASE_URL: "postgres://postgres:postgres@pamp-project-service-postgresql:5432/pamp_projects"
+  DATABASE_URL: "postgres://postgres:postgres@pamp-projects-service-postgresql:5432/pamp_projects"
   NODE_ENV: "production"
   PORT: "3001"
 

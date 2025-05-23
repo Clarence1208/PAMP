@@ -74,7 +74,7 @@ Key environment variables:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection string | `postgres://postgres:postgres@pamp-project-service-postgresql:5432/pamp_projects` |
+| `DATABASE_URL` | PostgreSQL connection string | `postgres://postgres:postgres@pamp-projects-service-postgresql:5432/pamp_projects` |
 | `NODE_ENV` | Node.js environment | `production` |
 | `PORT` | Application port | `3001` |
 | `JWT_SECRET` | JWT signing secret | `change-me-in-production` |
