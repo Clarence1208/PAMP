@@ -125,7 +125,7 @@ resources:
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `replicaCount` | Number of replicas | `1` |
-| `image.repository` | Container image repository | `ghcr.io/clarence1208/pamp-project-service` |
+| `image.repository` | Container image repository | `ghcr.io/mil0w0/pamp-project-api` |
 | `image.tag` | Container image tag | `latest` |
 | `image.pullPolicy` | Image pull policy | `Always` |
 | `fullnameOverride` | Override the full name | `pamp-project-service` |
