@@ -76,6 +76,7 @@ Key environment variables:
 |----------|-------------|---------|
 | `DATABASE_URL` | PostgreSQL connection string | `postgres://postgres:postgres@pamp-project-service-postgresql:5432/pamp_projects` |
 | `NODE_ENV` | Node.js environment | `production` |
+| `PORT` | Application port | `3001` |
 | `JWT_SECRET` | JWT signing secret | `change-me-in-production` |
 | `LOG_LEVEL` | Application log level | `info` |
 
@@ -84,7 +85,7 @@ Key environment variables:
 ```yaml
 service:
   type: ClusterIP
-  port: 3000
+  port: 3001
 ```
 
 ### Ingress Configuration
@@ -208,7 +209,7 @@ cd ../pamp-project-api
 docker-compose up --build
 ```
 
-The API will be available at `http://localhost:3000`
+The API will be available at `http://localhost:3001`
 
 ### Testing
 

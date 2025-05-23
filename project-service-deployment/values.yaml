@@ -54,7 +54,7 @@ service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 3000
+  port: 3001
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
@@ -136,6 +136,7 @@ postgresql:
 env:
   DATABASE_URL: "postgres://postgres:postgres@pamp-project-service-postgresql:5432/pamp_projects"
   NODE_ENV: "production"
+  PORT: "3001"
 
 # Configuration data
 configData:
