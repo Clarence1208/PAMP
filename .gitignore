@@ -1,4 +1,7 @@
 auth-deployment/charts
+cert-deployment/charts
+front-deployment/charts
+project-service-deployment/charts
 
 .venv
 

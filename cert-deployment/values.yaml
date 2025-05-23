@@ -32,6 +32,7 @@ certificates:
     domains:
       - "edulor.fr"
       - "auth.edulor.fr"
+      - "projects.edulor.fr"
     # Duration of the certificate (must use proper Kubernetes duration format)
     duration: "2160h"  # 90 days
     # Renewal time before expiry (must use proper Kubernetes duration format)
