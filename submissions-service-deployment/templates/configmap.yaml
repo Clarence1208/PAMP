@@ -1,0 +1,12 @@
+{{- if .Values.configData }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "submissions-service-deployment.fullname" . }}-config
+  labels:
+    {{- include "submissions-service-deployment.labels" . | nindent 4 }}
+data:
+  {{- range $key, $val := .Values.configData }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
+{{- end }} 

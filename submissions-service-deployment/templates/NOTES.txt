@@ -1,0 +1,49 @@
+🎉 PAMP Submissions Service has been deployed successfully!
+
+{{- if .Values.ingress.enabled }}
+🌐 Your application is available at:
+{{- range $host := .Values.ingress.hosts }}
+  {{- range .paths }}
+  https://{{ $host.host }}{{ .path }}
+  {{- end }}
+{{- end }}
+
+📄 API Documentation:
+  https://{{ (index .Values.ingress.hosts 0).host }}/swagger-ui
+
+🔍 Health Check:
+  https://{{ (index .Values.ingress.hosts 0).host }}/
+
+{{- else if contains "NodePort" .Values.service.type }}
+🌐 Get the application URL by running these commands:
+  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "submissions-service-deployment.fullname" . }})
+  export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo http://$NODE_IP:$NODE_PORT
+
+{{- else if contains "LoadBalancer" .Values.service.type }}
+🌐 Get the application URL by running these commands:
+     NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+           You can watch its status by running 'kubectl get --namespace {{ .Release.Namespace }} svc -w {{ include "submissions-service-deployment.fullname" . }}'
+  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "submissions-service-deployment.fullname" . }} --template "{{"{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}"}}")
+  echo http://$SERVICE_IP:{{ .Values.service.port }}
+
+{{- else if contains "ClusterIP" .Values.service.type }}
+🌐 Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "submissions-service-deployment.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+  export CONTAINER_PORT=$(kubectl get pod --namespace {{ .Release.Namespace }} $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  echo "Visit http://127.0.0.1:3002 to use your application"
+  kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 3002:$CONTAINER_PORT
+
+{{- end }}
+
+🔧 Useful commands:
+  # Check pod status
+  kubectl get pods -l "app.kubernetes.io/name={{ include "submissions-service-deployment.name" . }}" -n {{ .Release.Namespace }}
+
+  # View application logs  
+  kubectl logs -l "app.kubernetes.io/name={{ include "submissions-service-deployment.name" . }}" -n {{ .Release.Namespace }}
+
+  # Connect to PostgreSQL database
+  kubectl exec -it {{ include "submissions-service-deployment.fullname" . }}-postgresql-0 -n {{ .Release.Namespace }} -- psql -U postgres -d pamp_submissions
+
+📝 For more information about the PAMP Submissions Service, check the API documentation at the URL above!
