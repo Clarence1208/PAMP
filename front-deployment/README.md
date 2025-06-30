@@ -45,7 +45,8 @@ The following table lists the configurable parameters of the PAMP Frontend chart
 | `resources.limits.memory`| Memory limits           | `256Mi`        |
 | `resources.requests.cpu` | CPU requests            | `100m`         |
 | `resources.requests.memory` | Memory requests      | `128Mi`        |
-| `env`                    | Environment variables   | `{NODE_ENV: "production", VITE_API_URL: "https://edulor.fr/user-api"}` |
+| `env`                    | Environment variables   | `{NODE_ENV: "production", VITE_AUTH_API_URL: "https://auth.edulor.fr"}` |
+| `secrets`                | Sensitive environment variables | `{VITE_S3_SECRET_KEY: "your-secret"}` |
 | `configData`             | Configuration data      | NGINX configurations |
 
 ## Customization
@@ -71,6 +72,17 @@ configData:
   NGINX_PROXY_CONNECT_TIMEOUT: "60s"
   NGINX_PROXY_SEND_TIMEOUT: "60s"
   NGINX_PROXY_READ_TIMEOUT: "60s"
+```
+
+## Secret Management
+
+⚠️ **Security Warning**: This chart handles sensitive credentials like AWS S3 keys. See [SECURITY.md](./SECURITY.md) for detailed security guidelines and best practices.
+
+### Quick Setup for Development
+
+```bash
+helm install pamp-frontend ./front-deployment \
+  --set secrets.VITE_S3_SECRET_KEY="your-s3-secret-key"
 ```
 
 ## Ingress Configuration

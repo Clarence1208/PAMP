@@ -135,6 +135,22 @@ env:
   VITE_PROJECT_API_URL: "https://projects.edulor.fr"
   VITE_SUBMISSION_API_URL: "https://submissions.edulor.fr"
 
+# Sensitive environment variables (stored as Kubernetes secrets)
+# WARNING: These values will be base64 encoded but should be provided securely
+secrets:
+  VITE_LIVEBLOCKS_KEY: "pk_dev_ECOQqvJfrls4sg1uTAOZrnEdvZDVZqFSCaI4NDRIi8KtVze5aNvoarM1tSHjrjJl"
+  VITE_S3_ACCESS_KEY: "AKIAYUQGTEAPMSTVCHSZ"
+  VITE_S3_SECRET_KEY: "your-s3-secret-key-here"
+
+# Use existing secret instead of creating new one
+existingSecret:
+  enabled: false
+  name: ""
+  keys:
+    - "VITE_LIVEBLOCKS_KEY"
+    - "VITE_S3_ACCESS_KEY"
+    - "VITE_S3_SECRET_KEY"
+
 # Configuration data
 configData:
   NGINX_CLIENT_MAX_BODY_SIZE: "10m"

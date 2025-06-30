@@ -59,6 +59,26 @@ spec:
                   key: {{ $key }}
             {{- end }}
             {{- end }}
+            {{- if or .Values.secrets .Values.existingSecret.enabled }}
+            {{- $secretName := .Values.existingSecret.name | default (printf "%s-secrets" (include "front-deployment.fullname" .)) }}
+            {{- if .Values.existingSecret.enabled }}
+            {{- range $key := .Values.existingSecret.keys }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: {{ $key }}
+            {{- end }}
+            {{- else }}
+            {{- range $key, $val := .Values.secrets }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: {{ $key }}
+            {{- end }}
+            {{- end }}
+            {{- end }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
