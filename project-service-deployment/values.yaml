@@ -145,4 +145,4 @@ configData:
 # Sensitive data (should be overridden in a secure way in production)
 secrets:
   JWT_SECRET: "change-me-in-production"
-  # Add other sensitive data here
+  LIVEBLOCKS_SECRET_KEY: "your_liveblocks_secret_key"
