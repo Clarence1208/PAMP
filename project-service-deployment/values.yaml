@@ -137,6 +137,7 @@ env:
   DATABASE_URL: "postgres://postgres:postgres@pamp-projects-service-postgresql:5432/pamp_projects"
   NODE_ENV: "production"
   PORT: "3001"
+  FRONTEND_URL: "https://edulor.fr"
 
 # Configuration data
 configData:
@@ -146,3 +147,4 @@ configData:
 secrets:
   JWT_SECRET: "change-me-in-production"
   LIVEBLOCKS_SECRET_KEY: "your_liveblocks_secret_key"
+  NOTIFICATION_API_KEY: "your_notification_api_key"
