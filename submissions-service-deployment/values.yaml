@@ -138,6 +138,7 @@ env:
   APP_NAME: "PAMP Submissions Service"
   APP_VERSION: "1.0.0"
   DEBUG: "false"
+  AWS_ACCESS_KEY_ID: "AKIAYUQGTEAPMSTVCHSZ"
 
 # Configuration data
 configData:
@@ -149,4 +150,4 @@ configData:
 secrets:
   POSTGRES_USER: "postgres"
   POSTGRES_PASSWORD: "postgres"
-  # Add other sensitive data here
+  AWS_SECRET_ACCESS_KEY: "your-aws-secret-access-key-not-in-production"
